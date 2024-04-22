@@ -18,6 +18,10 @@ const UserModal = new  mongoose.Schema({
     timeToLive : {
         type : Number , 
         default : Date.now() + 10 * 60 * 1000 , 
+    }, 
+    isActive : {
+        type : Boolean , 
+        default : true
     }
     
 })

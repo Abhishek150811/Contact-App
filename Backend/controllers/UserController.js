@@ -53,6 +53,8 @@ exports.loginUser = async (req, res, next) => {
     }
 }
 
+
+
 exports.verifyUser = async(req , res , next)=>{
     try {
         const userOtp = req.body.otp ; 
@@ -60,7 +62,7 @@ exports.verifyUser = async(req , res , next)=>{
         if(userOtp !== user.otp || Date.now() > user.timeToLive){
             res.status(401).json({
                 status : 'Fail' , 
-                message : `It's over 10 minutes now so otp is invalid or your otp is invalid `
+                message : `It's over 10 minutes now so otp is invalid or your otp is incorrect `
             })
         }
 

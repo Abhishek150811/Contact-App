@@ -13,13 +13,17 @@ const contactSchema = new mongoose.Schema({
     email : {
         type : String , 
     },
-    dateOFBirth : {
+    dateOfBirth : {
         type : Date , 
     },
     phoneNumber : {
         type : String , 
         required : [true , 'Phone Number of a person is required'] ,
         unique : true , 
+    }, 
+    admin : {
+        type : mongoose.Schema.ObjectId , 
+        required : [true , 'A user must have a parent admin']
     }
 
 })
