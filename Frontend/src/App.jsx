@@ -6,11 +6,11 @@ import ContactsPage from './Components/ContactsPage'
 import './App.css'
 
 function App() {
-  
+  const [isLogin , setIsLogin] = useState("") ; 
 
   return (
     <div className='main-box' >
-        <Navbar></Navbar>
+        <Navbar name={isLogin} ></Navbar>
         <Routes>
           <Route path='/' element={<Home></Home>} >  </Route>
           <Route path='/:id' element={<ContactsPage></ContactsPage>} ></Route>
