@@ -17,15 +17,17 @@ export default function Navbar({name}) {
     const icon = currtheme === 0 ? faMoon : IconWiDaySunny ; 
 
   return (
-    <div className='navbar' >
-        <li>Contact App</li>
-        {/* <button onClick={()=>{handleClick}} > {icon} </button> */}
-        {name ===  '' ? <li>Login</li> : <>
+    <div className='navbar ' >
+        <li  >Contact App</li>
+        {name ===  '' ? <div>
+        <FontAwesomeIcon icon={faMoon} />
+        <li>Login</li> 
+        </div>: <div>
                                             <li><SearchBar></SearchBar></li>
                                             <li>My Contacts</li>
                                             <li>Add Contacts</li>
                                             <li>{name}</li>
-                                        </>
+                                        </div>
         }
         
     </div>

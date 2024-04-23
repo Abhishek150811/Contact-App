@@ -5,7 +5,13 @@ export default function Home() {
     <div className='home-div' >
         <div className='inner-div' >
             <div className='overlay-cont' ></div>
-            <div className='content-cont' ></div>
+            <div className='content-cont' >
+              <div className="helper">
+                <button>Login</button>
+                <button>Features</button>
+              </div>
+            </div>
+
         </div>
     </div>
   )
