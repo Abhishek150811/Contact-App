@@ -6,6 +6,18 @@ import SearchBar from './SearchBar'
 
 export default function Navbar({name}) {
     const [currtheme , setCurrTheme] = useState(0) ; 
+    const [colourChange , setColourChange] = useState(0) ; 
+
+    const handleColourChange = ()=>{
+      if(window.scrollY >= 80){
+        setColourChange(1) ; 
+      }
+      else{
+        setColourChange(0) ; 
+        
+      }
+    } 
+    window.addEventListener('scroll' , handleColourChange) ; 
 
     function handleClick(){
         setCurrTheme((prev)=>{
@@ -13,19 +25,34 @@ export default function Navbar({name}) {
             return curr ; 
         })
     }
-
+    let iconStyle ;
+    if(currtheme == 0){
+      iconStyle = {
+        color : 'white' , 
+        backgroundColor : 'black'
+      }
+    }
+    else{
+      iconStyle = {
+        color : 'black' , 
+        backgroundColor : 'white'
+      }
+    }
     const icon = currtheme === 0 ? faMoon : IconWiDaySunny ; 
 
   return (
-    <div className='navbar ' >
+    <div style={{
+      backgroundColor : `${colourChange === 0 ? "rgba(81, 120, 237, 0)"  : "white"}`
+    }} className='navbar ' >
         <li  >Contact App</li>
         {name ===  '' ? <div>
-        <FontAwesomeIcon icon={faMoon} />
+        <FontAwesomeIcon style={iconStyle} icon={faMoon} />
         <li>Login</li> 
         </div>: <div>
                                             <li><SearchBar></SearchBar></li>
                                             <li>My Contacts</li>
                                             <li>Add Contacts</li>
+                                            <FontAwesomeIcon style={iconStyle} icon={faMoon} />
                                             <li>{name}</li>
                                         </div>
         }

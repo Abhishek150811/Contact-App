@@ -1,4 +1,5 @@
 const User = require('../modals/UserModal')
+const Otp = require('../modals/otpModal')
 const mongoose = require('mongoose')
 const sendMessage = require('../utils/sendMsg')
 const jwt = require('jsonwebtoken')
@@ -28,20 +29,20 @@ const createJwt = (req , res , next)=>{
 exports.loginUser = async (req, res, next) => {
     try {
         const phoneNumber = req.body.phoneNumber
-        let user = await User.findOne({
+        let user = await Otp.findOne({
             phoneNumber
         });
         if (!user) {
-            user = await User.create({
+            user = await Otp.create({
                 phoneNumber: phoneNumber
             })
         }
 
-        otp = createOtp()
+        let otp = createOtp()
         sendMessage(otp);
 
         user.otp = otp ; 
-        await user.save() ; 
+        await Otp.save() ; 
 
         res.status(200).json({
             status: 'Success',
@@ -58,15 +59,24 @@ exports.loginUser = async (req, res, next) => {
 exports.verifyUser = async(req , res , next)=>{
     try {
         const userOtp = req.body.otp ; 
-        const user = await User.findById(req.body.id) ;
+        const user = await Otp.findOne({phoneNumber : req.body.phoneNumber}) ;
         if(userOtp !== user.otp || Date.now() > user.timeToLive){
-            res.status(401).json({
+            return res.status(401).json({
                 status : 'Fail' , 
                 message : `It's over 10 minutes now so otp is invalid or your otp is incorrect `
             })
         }
+        
+        const obj = await User.findOne({phoneNumber : req.body.phoneNumber}) ; 
+        if(obj === undefined){
+            return res.status(401).json({
+                status : 'Unauthorized' , 
+                message : 'User is not in the database. Please fill the required details'
+            })
+        }
 
-        createJwt(req , res , next)
+        req.body.id = obj._id ; 
+        createJwt( req, res , next)
 
         res.status(200).json({
             status: 'Success' , 
@@ -80,13 +90,15 @@ exports.verifyUser = async(req , res , next)=>{
 
 exports.signUpUser = async (req, res, next) => {
     try {
-        const user = await User.findByIdAndUpdate(req.body.id, {
-            fullName: req.body.fullName
+        const user = await User.create({
+            phoneNumber : req.body.phoneNumber , 
+            fullName : req.body.fullName , 
+            otp : req.body.otp , 
         })
 
         res.status(200).json({
-            status: 'Success',
-            message: 'You are successfully signed up and logged in',
+            status : 'Success' , 
+            data : user 
         })
     } catch (err) {
         console.log("Error occured while signup up")

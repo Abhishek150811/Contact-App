@@ -7,8 +7,13 @@ export default function Home() {
             <div className='overlay-cont' ></div>
             <div className='content-cont' >
               <div className="helper">
-                <button>Login</button>
-                <button>Features</button>
+                
+                <h1 className='' >Save all your Contacts in the cloud and access them from anywhere</h1>
+                <div className=''>
+                  <button>Login</button>
+                  <button>Features</button>
+
+                </div>
               </div>
             </div>
 

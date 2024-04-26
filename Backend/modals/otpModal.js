@@ -11,7 +11,7 @@ const otpSchema = new mongoose.Schema({
     timeToLive : {
         type : Date , 
         default : Date.now() + 15 * 60 * 1000 , 
-    }
+    },
 })
 
 const Otp = new mongoose.model('Otp' , otpSchema) ; 
