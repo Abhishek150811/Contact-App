@@ -3,6 +3,7 @@ import Navbar from './Components/Navbar'
 import { Outlet , Routes , Route } from 'react-router-dom'
 import Home from './Components/Home'
 import ContactsPage from './Components/ContactsPage'
+import FormPage from './Components/FormPage'
 import './App.css'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path='/' element={<Home></Home>} >  </Route>
           <Route path='/:id' element={<ContactsPage></ContactsPage>} ></Route>
         </Routes>
+        <FormPage></FormPage>
 
     </div>
   )
