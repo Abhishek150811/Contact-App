@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const otpSchema = new mongoose.Schema({
     phoneNumber : {
         type : String , 
-        required : [true , 'For verifiying it is important to have a phone number']
+        required : [true , 'For verifiying it is important to have a phone number'],
+        minLength : 10,
+        maxLength: 10,
+        match: /^\+91[6-9]\d{9}$/
     }, 
     otp : {
         type : String , 
@@ -11,6 +14,7 @@ const otpSchema = new mongoose.Schema({
     timeToLive : {
         type : Date , 
         default : Date.now() + 15 * 60 * 1000 , 
+        expires : 20 * 60 , 
     },
 })
 

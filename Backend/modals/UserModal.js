@@ -7,7 +7,7 @@ const UserModal = new  mongoose.Schema({
         unique : true , 
         minLength : 10 ,
         maxLength: 10,
-        match: /^[6-9]\d{9}$/
+        match: /^\+91[6-9]\d{9}$/
     }, 
     fullName : {
         type : String , 

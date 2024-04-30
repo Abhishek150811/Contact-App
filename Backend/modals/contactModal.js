@@ -20,6 +20,9 @@ const contactSchema = new mongoose.Schema({
         type : String , 
         required : [true , 'Phone Number of a person is required'] ,
         unique : true , 
+        minLength : 10 ,
+        maxLength: 10,
+        match: /^\+91[6-9]\d{9}$/
     }, 
     admin : {
         type : mongoose.Schema.ObjectId , 

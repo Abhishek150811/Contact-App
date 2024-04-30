@@ -16,41 +16,63 @@ function createOtp() {
     return otp;
 }
 
-const createJwt = (req , res , next)=>{
-    const token = jwt.sign(req.body.id , process.env.SECRET, {
+const createJwt = (id)=>{
+    const token = jwt.sign({id} , process.env.SECRET, {
         expiresIn : process.env.JWT_EXPIRY
     })
-    res.cookie('jwt' , token, {
-        maxAge : 24 * 3600 , 
-        httpOnly : true , 
-    })
+
+    return token
 }
 
+//@Desc - Send OTP
 exports.loginUser = async (req, res, next) => {
     try {
-        const phoneNumber = req.body.phoneNumber
-        let user = await Otp.findOne({
+        // const phoneNumber = req.body.phoneNumber
+        // let user = await Otp.findOne({
+        //     phoneNumber
+        // });
+        // if (!user) {
+        //     user = await Otp.create({
+        //         phoneNumber: phoneNumber
+        //     })
+        // }
+
+        // let otp = createOtp()
+        // sendMessage(otp);
+
+        // user.otp = otp ; 
+        // await Otp.save() ; 
+
+
+        const {phoneNumber} = req.body
+
+        if(!phoneNumber) throw new Error("Provide a Phone Number")
+
+        let otp = await Otp.findOneAndDelete({
             phoneNumber
-        });
-        if (!user) {
-            user = await Otp.create({
-                phoneNumber: phoneNumber
-            })
-        }
-
-        let otp = createOtp()
-        sendMessage(otp);
-
-        user.otp = otp ; 
-        await Otp.save() ; 
-
-        res.status(200).json({
-            status: 'Success',
-            data: {...user , otp : undefined}
         })
+
+        let otpToSend = createOtp()
+        otp = await Otp.create({
+            phoneNumber,
+            otp:otpToSend
+        })
+
+        sendMessage(otpToSend)
+
+         res.status(200).json({
+            status: 'Success',
+            success:true
+        })
+
 
     } catch (err) {
         console.log("Error occured while loggin in user");
+        res.status(500).json({
+            status:"Fail",
+            message:"Enter a Valid Number",
+            success:false
+        })
     }
 }
 
@@ -58,29 +80,41 @@ exports.loginUser = async (req, res, next) => {
 
 exports.verifyUser = async(req , res , next)=>{
     try {
-        const userOtp = req.body.otp ; 
-        const user = await Otp.findOne({phoneNumber : req.body.phoneNumber}) ;
-        if(userOtp !== user.otp || Date.now() > user.timeToLive){
+        const {phoneNumber, otp} = req.body
+        const otpFromDB = await Otp.findOne({phoneNumber, otp}) ;
+
+        if(!otpFromDB) {
             return res.status(401).json({
                 status : 'Fail' , 
-                message : `It's over 10 minutes now so otp is invalid or your otp is incorrect `
-            })
-        }
-        
-        const obj = await User.findOne({phoneNumber : req.body.phoneNumber}) ; 
-        if(obj === undefined){
-            return res.status(401).json({
-                status : 'Unauthorized' , 
-                message : 'User is not in the database. Please fill the required details'
+                message : `Incorrect OTP or PhoneNumber`,
+                success:false
             })
         }
 
-        req.body.id = obj._id ; 
-        createJwt( req, res , next)
+        if(Date.now() > otpFromDB.timeToLive){
+            return res.status(401).json({
+                status : 'Fail' , 
+                message : `It's over 10 minutes now so otp is invalid or your otp is incorrect `,
+                success:false
+            })
+        }
+
+        //OTP IS VERIFIED
+        
+        let obj = await User.findOne({phoneNumber}) ; 
+        if(!obj){
+            obj = await User.create({
+                phoneNumber
+            })
+        }
+
+        const token = createJwt(obj._id)
 
         res.status(200).json({
             status: 'Success' , 
-            data : user
+            data : obj,
+            token,
+            sucess:true
         })
     }
     catch(err){
@@ -104,3 +138,34 @@ exports.signUpUser = async (req, res, next) => {
         console.log("Error occured while signup up")
     }
 }
+
+exports.updateUser = async (req, res) =>{
+    try{
+        const {_id} = req.user
+        const {fullName} = req.body
+
+        if(!fullName){
+            return res.status(500).json({
+                success:false,
+                message:"Enter Data",
+                status:'fail'
+            })
+        }
+
+        const updatedUser = await User.findById(_id)
+
+        updatedUser.fullName = fullName
+
+        await updatedUser.save()
+
+        return res.status(204).json({
+            success:true,
+            data:updatedUser,
+            status:'Success'
+        })
+    }catch(err){
+        console.log('')
+    }
+}
+
+exports.getMe = async ()
