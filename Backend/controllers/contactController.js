@@ -16,20 +16,22 @@ exports.getAllContacts = async (req , res , next)=>{
 }
 
 exports.getContacts = async( req , res , next)=>{
+    const {_id} = req.user
+    console.log(_id) ; 
     try {
-        const users = await Contact.findOne({admin : req.body.id}) ; 
+        const users = await Contact.findOne({admin : _id}) ; 
         res.status(200).json({
             status : 'Success' , 
-            length : users.length , 
             data : users 
         })
     }catch(err){
-        console.log("Error in gettling all contact list")
+        console.log("Error in gettling all contact list" , err.message)
     }
 
 }
 
 exports.createContact = async (req , res , next)=>{
+    const {_id} = req.user
     try{
         const user = await Contact.create({
             firstName : req.body.firstName , 
@@ -37,7 +39,7 @@ exports.createContact = async (req , res , next)=>{
             email : req.body.email , 
             dateOfBirth : req.body.dateOfBirth , 
             phoneNumber : req.body.phoneNumber , 
-            admin :  req.body.id 
+            admin :  _id
         })
         res.status(200).json({
             status : 'Success' ,
@@ -52,7 +54,8 @@ exports.createContact = async (req , res , next)=>{
 exports.updateContact = async(req , res , next)=>{
     try {
         const data = req.body.details ; 
-        const user = await Contact.findOneAndUpdate({_id : req.body.id} , data ,  {
+        const id = req.params
+        const user = await Contact.findOneAndUpdate({_id:id} , data ,  {
             new : true 
         } )
         res.status(200).json({
@@ -67,7 +70,7 @@ exports.updateContact = async(req , res , next)=>{
 
 exports.deleteContact = async(req , res , next)=>{
     try{
-        await Contact.deleteOne({_id : req.body.contactId}) ; 
+        await Contact.deleteOne({_id : req.params.id}) ; 
         res.status(200).json({
             status : 'Success' , 
             message : 'Contact deleted successfully'

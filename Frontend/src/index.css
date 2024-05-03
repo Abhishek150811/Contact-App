@@ -51,7 +51,7 @@
     align-content: center;
     justify-content: right;
     gap: 5rem ; 
-    width: 50%;
+    width: 80%;
 
  }
 
@@ -294,3 +294,15 @@
   color: white ; ;
 }
 
+
+/* Search bar */
+.search-bar input{
+  font-size: 1.5rem ; 
+  padding: 0.2rem 3rem ; 
+  border: 2px solid #bbb ; 
+  outline: none ; 
+  border-radius: 2rem ;
+}
+.search-bar .search{
+  font-size: 1.5rem ; 
+}

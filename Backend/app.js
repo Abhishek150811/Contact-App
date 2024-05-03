@@ -1,6 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
-const contactRouter = require('./router/contactRouter')
+const ContactRouter = require('./router/contactRouter')
 const UserRouter = require('./router/userRouter')
 const sendMessage = require('./utils/sendMsg')
 const cors = require('cors') ; 
@@ -30,6 +30,7 @@ app.get('/' , (req , res , next)=>{
     })
 })
 app.use('/api/v1/users' , UserRouter) ; 
+app.use('/api/v1/contacts' , ContactRouter) ; 
 
 app.use('*' , (req , res , next)=>{
     console.log(req.originalUrl)

@@ -6,7 +6,7 @@ export const AuthContext = createContext() ;
 
 export const AuthContextProvider = ({children})=>{
     const navigate = useNavigate() ; 
-    const [user , setUser] = useState(null)
+    const [user , setUser] = useState(undefined)
     const [isLogined , setIsLogined] = useState(0) ; 
     const [contacts, setContacts] = useState([])
 
@@ -15,7 +15,7 @@ export const AuthContextProvider = ({children})=>{
           const token = localStorage.getItem('token');
           const {data} = await axios.get('http:/127.0.0.1:3000/api/v1/users/me', {
             headers : {
-              Authentication : `Bearer ${token}`
+              Authorization : `Bearer ${token}`
             }
           })
           if(data.success){
@@ -23,7 +23,6 @@ export const AuthContextProvider = ({children})=>{
             setUser(data.data) ; 
 
             //fetch the contacts and setContacts
-
 
             //navigate
             navigate('/dashboard') ; 

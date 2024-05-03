@@ -75,8 +75,8 @@ exports.verifyUser = async(req , res , next)=>{
                 success:false
             })
         }
-
-        if(new Date() > new Date(otpFromDB.timeToLive)){
+        // console.log(Date.now() > new Date(otpFromDB.timeToLive)) ; 
+        if(Date.now() > new Date(otpFromDB.timeToLive)){
             return res.status(401).json({
                 status : 'Fail' , 
                 message : `It's over 10 minutes now so otp is invalid or your otp is incorrect `,
@@ -137,12 +137,13 @@ exports.updateUser = async (req, res) =>{
             })
         }
 
-        const updatedUser = await User.findById(_id)
+        let updatedUser = await User.findById(_id)
 
         updatedUser.fullName = fullName
 
-        await updatedUser.save()
+        updatedUser =  await updatedUser.save()
 
+        console.log(updatedUser); 
         return res.status(204).json({
             success:true,
             data:updatedUser,

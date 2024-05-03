@@ -6,16 +6,21 @@ export default function SearchBar() {
   const [text , setText] = useState() ; 
   const [currFocus , setCurrFocus] = useState(0) ; 
 
+  // This has to be implemented
+  const handleClick = ()=>{
+
+  }
   return (
-    <div>
+    <div className='search-bar' >
       <input type="text" 
+        
         value={text}
         onChange={(e)=>setText(e.target.value)}
         placeholder='Search Contacts .....'
         onFocus={()=>setCurrFocus(!currFocus)}
         onBlur={()=> setCurrFocus(!currFocus)}
       />
-      <FontAwesomeIcon icon={faMagnifyingGlass} />
+      <FontAwesomeIcon onClick={handleClick} className='search' icon={faMagnifyingGlass} />
 
     </div>
   )

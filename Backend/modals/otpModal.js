@@ -14,7 +14,6 @@ const otpSchema = new mongoose.Schema({
     timeToLive : {
         type : Date , 
         default : (Date.now() + 20 * 60 * 1000) - 1000 , 
-        // expires : 20 * 60 * 1000 , 
     },
 })
 

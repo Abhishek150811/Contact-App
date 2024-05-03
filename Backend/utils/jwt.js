@@ -12,7 +12,7 @@ const verifyToken = (token) =>{
 
 exports.protect = async (req, res, next) =>{
   //Bearer jdbhfkjhdgfhdsbfhjsdghgbhdfjbghdfsbg
-  const token = req?.headers?.authorization?.split(' ')[1]
+  const token = req?.headers?.authentication?.split(' ')[1]
   if(!token) return res.status(401).json({
     status:'fail',
     message:'Access Denied',

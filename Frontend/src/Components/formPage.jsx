@@ -87,7 +87,7 @@ export default function FormPage() {
     e.preventDefault();
     try {
       setLoading(true);
-      const { data } = await axios.put(
+      const data = await axios.put(
         "http://127.0.0.1:3000/api/v1/users/me",
         {
           fullName: formData.fullName,
@@ -99,13 +99,13 @@ export default function FormPage() {
         }
       );
       
-      console.log(data)
+      console.log(data.data)
       if (data.success) {
         //console.log('Otp is Sent')
         toast.success("Updated!!");
         //set user in global state to data.data
         setUser(data.data);
-        if (data?.fullName) {
+        if (data?.data?.fullName) {
           navigate("/dashboard");
         }
         setIsLogined(3);
