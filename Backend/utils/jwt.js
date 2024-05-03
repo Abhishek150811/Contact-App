@@ -6,27 +6,28 @@ dotenv.config()
 
 const secret = process.env.SECRET
 
-const verifyToken = (token) =>{
+const verifyToken = (token) => {
   return jwt.verify(token, secret)
 }
 
-exports.protect = async (req, res, next) =>{
+exports.protect = async (req, res, next) => {
   //Bearer jdbhfkjhdgfhdsbfhjsdghgbhdfjbghdfsbg
-  const token = req?.headers?.authentication?.split(' ')[1]
-  if(!token) return res.status(401).json({
-    status:'fail',
-    message:'Access Denied',
-    success:false
+  const token = req?.headers?.authorization?.split(' ')[1]
+  console.log(token)
+  if (!token) return res.status(401).json({
+    status: 'fail',
+    message: 'Access Denied',
+    success: false
   })
 
-  try{
+  try {
     const isVerified = verifyToken(token)
-    if(!isVerified){
-        return res.status(401).json({
-          status:'fail',
-          message:'Access Denied',
-          success:false
-        })
+    if (!isVerified) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'Access Denied',
+        success: false
+      })
     }
 
     /**
@@ -37,12 +38,12 @@ exports.protect = async (req, res, next) =>{
 
     const user = await User.findById(isVerified.id)
 
-    if(!user) {
-        return res.status(401).json({
-          status:'fail',
-          message:'User not Available',
-          success:false
-        })
+    if (!user) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'User not Available',
+        success: false
+      })
     }
 
     req.user = user
@@ -50,12 +51,12 @@ exports.protect = async (req, res, next) =>{
     next()
 
   }
-  catch(errr){
+  catch (errr) {
     return res.status(401).json({
-          status:'fail',
-          message:'Something Went Wrong!',
-          success:false
-        })
+      status: 'fail',
+      message: 'Something Went Wrong!',
+      success: false
+    })
   }
 }
 

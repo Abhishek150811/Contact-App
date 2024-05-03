@@ -100,12 +100,13 @@ export default function FormPage() {
       );
       
       console.log(data.data)
-      if (data.success) {
+      if (data.data.success) {
         //console.log('Otp is Sent')
         toast.success("Updated!!");
         //set user in global state to data.data
         setUser(data.data);
-        if (data?.data?.fullName) {
+        console.log(data.data.fullName, data.data);
+        if (data.data.fullName) {
           navigate("/dashboard");
         }
         setIsLogined(3);

@@ -11,8 +11,7 @@ export default function Navbar() {
   const { isLogined, setIsLogined, user, setUser } = useAuth();
   const [currtheme, setCurrTheme] = useState(0);
   const [colourChange, setColourChange] = useState(0);
-  
-  const myref = useRef() ; 
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -53,16 +52,12 @@ export default function Navbar() {
   function handleLoginButton(e) {
     navigate("/login");
   }
-  function handleOpenDialog(){
-    myref.current.showModal() ; 
-  }
-  function handleClose(){
-    myref.current.close() ; 
-  }
+
 
   const icon = currtheme === 0 ? faMoon : IconWiDaySunny;
 
   return (
+    <>
     <div
       style={{
         backgroundColor: `${
@@ -71,7 +66,6 @@ export default function Navbar() {
       }}
       className="navbar "
     >
-      <Dialog ref={myref} ></Dialog>
       <li
         className="cursor-pointer"
         onClick={() => {
@@ -81,7 +75,7 @@ export default function Navbar() {
       >
         Contact App
       </li>
-      {isLogined == 2 ? (
+      {isLogined == 0 ? (
         <div>
           <FontAwesomeIcon style={iconStyle} icon={faMoon} />
           <li onClick={handleLoginButton} className="cursor-pointer">
@@ -91,11 +85,13 @@ export default function Navbar() {
       ) : (
         <div>
           <li>  <SearchBar  ></SearchBar> </li>
-          <li onClick={handleOpenDialog} >Add Contacts</li>
+          <button className="text-[16px] font-bold" onClick={()=>setOpen(true)} >Add Contacts</button>
           <FontAwesomeIcon style={iconStyle} icon={faMoon} />
           <li className="cursor-pointer">Log out</li>
         </div>
       )}
     </div>
+    {open && <Dialog setOpen={setOpen}/>}
+    </>
   );
 }

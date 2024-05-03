@@ -8,11 +8,19 @@ import "./App.css";
 import { Toaster } from "sonner";
 import { AuthContextProvider } from "./store/LoginContext";
 import Dashboard from "./Components/Dashboard";
+import { useAuth } from "./Hooks/useAuth";
+
+const Wrapper = ({ children }) => {
+  return     <AuthContextProvider >
+    {children}
+  </AuthContextProvider>
+};
 
 function App() {
 
+
   return (
-    <AuthContextProvider >
+    <Wrapper >
   
       <div className="main-box h-[100vh] flex flex-col justify-end">
         <Navbar ></Navbar>
@@ -28,7 +36,7 @@ function App() {
         <Toaster />
       </div>
       
-</AuthContextProvider>
+</Wrapper>
   );
 }
 
