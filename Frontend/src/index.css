@@ -141,3 +141,156 @@
   color : var(--secondary-white) ; 
   box-shadow: 0px 0px 20px rgb(2, 2, 2);
 }
+
+/* form page styling */
+.form{
+  position: relative;
+  height: 100vh ; 
+  width: 100vw ; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  background : linear-gradient(90deg , rgb(124, 133, 227) , rgb(101, 200, 224));
+}
+
+.form .wrapper-class{
+  position: absolute;
+  top : 10rem ; 
+  width: 70% ; 
+  height: 80%;
+  border-radius: 2rem ;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  background-color: rgb(35, 35, 35);
+  color : var(--primary-white)
+}
+.form .wrapper-class .helper-class{
+  width: 50% ; 
+  height: 100% ; 
+  border-radius: 2rem 0 0 2rem ;
+  background:linear-gradient( rgba(52, 52, 52, 0.253) , rgba(95, 95, 95, 0.249)),url('../public/8170015.jpg') ;
+  background-position : center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.form .wrapper-class form{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+
+  font-family: "Poppins", sans-serif;
+
+}
+.form .wrapper-class form h1  {
+  font-size: 3rem; 
+  margin: 4rem auto ; 
+  text-align: center;
+  padding-top: 2rem ; 
+  width: 70%; 
+}
+.form .wrapper-class form h1 span{
+  font-size: 3rem ; 
+  color: var(--primary-blue);
+}
+
+.form .wrapper-class form label {
+  font-size: 1.5rem ; 
+  margin : 0 auto ;  
+  margin-top: 3rem;
+  width: 70%;
+}
+.form .wrapper-class form .phonenumber{
+  width: 70% ; 
+  margin:  0 auto; 
+  margin-top: 1rem ;
+  margin-bottom: 3rem ; 
+ 
+}
+.form .wrapper-class form .phonenumber .form-control{
+  font-size: 1.5rem ; 
+  background-color: rgb(35, 35, 35);
+  color: var(--primary-white) ; 
+  width: 100% ; ;
+  
+}
+
+
+.react-tel-input .selected-flag .arrow{
+  border-top: 4px solid white !important;
+}
+
+
+.form .wrapper-class form .phonenumber .country-list{
+  background-color: rgb(35, 35, 35);
+  color : var(--primary-white) ; 
+}
+.form .wrapper-class form .phonenumber .country-list .country:hover{
+  background-color: rgb(86, 86, 86);
+  color : var(--primary-white) ; 
+  
+}
+.form .wrapper-class .submit-btn {
+  background-color: var(--secondary-blue);
+  color: var(--primary-white);
+  font-size: 2rem ; 
+  width: 70% ; 
+  margin : 0 auto ; 
+  padding : 1rem 0 ; 
+  border-radius: 1.5rem ; 
+  transition: 0.3s all ease-in-out;
+}
+.form .wrapper-class .submit-btn:hover{
+  background-color: var(--primary-blue);
+  cursor: pointer;
+}
+
+
+
+.form .wrapper-class .otp h1{
+  font-size: 2.3rem;
+}
+.form .wrapper-class .otp h1 *{
+  font-size: 2.3rem;
+}
+.form .wrapper-class .otp label {
+  text-align: center;
+  font-size: 2rem ;;
+}
+#root > div > div.form > div > form > div{
+  font-size: 3rem;
+  color : var(--primary-blue) ;  
+  font-weight:600 ;
+  margin: 1.5rem auto ;  
+}
+.form .wrapper-class .otp .submit-btn{
+  margin : 4rem auto ; 
+  width: 50%;
+}
+
+
+.form .wrapper-class .sign-up h1{
+  margin: 2rem auto ; 
+  
+}
+.form .wrapper-class .sign-up label{
+  font-size: 2rem ; 
+  width: 70% ; 
+  margin : 0rem auto ;
+}
+.form .wrapper-class .sign-up  input{
+  font-size: 2rem ; 
+  width: 70% ; 
+  margin: 1rem auto ; 
+  outline: none ; 
+  border: none;
+  border-radius: 1rem;
+  padding:1rem ; 
+  color : black
+}
+.form .wrapper-class .sign-up .submit-btn{
+  color: white ; ;
+}
+

@@ -27,47 +27,32 @@ const createJwt = (id)=>{
 //@Desc - Send OTP
 exports.loginUser = async (req, res, next) => {
     try {
-        // const phoneNumber = req.body.phoneNumber
-        // let user = await Otp.findOne({
-        //     phoneNumber
-        // });
-        // if (!user) {
-        //     user = await Otp.create({
-        //         phoneNumber: phoneNumber
-        //     })
-        // }
-
-        // let otp = createOtp()
-        // sendMessage(otp);
-
-        // user.otp = otp ; 
-        // await Otp.save() ; 
-
-
+        
+        
         const {phoneNumber} = req.body
-
+        
         if(!phoneNumber) throw new Error("Provide a Phone Number")
 
         let otp = await Otp.findOneAndDelete({
             phoneNumber
         })
-
+        
         let otpToSend = createOtp()
         otp = await Otp.create({
             phoneNumber,
             otp:otpToSend
         })
+        
+        sendMessage(phoneNumber , otpToSend)
 
-        sendMessage(otpToSend)
-
-         res.status(200).json({
+        res.status(200).json({
             status: 'Success',
             success:true
         })
 
 
     } catch (err) {
-        console.log("Error occured while loggin in user");
+        console.log("Error occured while loggin in user" , err.message);
         res.status(500).json({
             status:"Fail",
             message:"Enter a Valid Number",
@@ -82,7 +67,7 @@ exports.verifyUser = async(req , res , next)=>{
     try {
         const {phoneNumber, otp} = req.body
         const otpFromDB = await Otp.findOne({phoneNumber, otp}) ;
-
+        console.log(phoneNumber , otp) ; 
         if(!otpFromDB) {
             return res.status(401).json({
                 status : 'Fail' , 
@@ -107,18 +92,18 @@ exports.verifyUser = async(req , res , next)=>{
                 phoneNumber
             })
         }
-
         const token = createJwt(obj._id)
+        console.log(token)
 
         res.status(200).json({
             status: 'Success' , 
             data : obj,
             token,
-            sucess:true
+            success:true
         })
     }
     catch(err){
-        console.log("Error while verify the otp")
+        console.log("Error while verify the otp" , err.message)
     }
 }
 
@@ -168,4 +153,18 @@ exports.updateUser = async (req, res) =>{
     }
 }
 
-exports.getMe = async ()
+exports.getMe = async (req, res)=>{
+    const {_id} = req.user
+    try{
+        const user = await User.findById(_id)
+        return res.status(200).json({
+            success:true,
+            data:user,
+            status:'Success'
+        })
+    }
+    catch(err){
+        console.log(err)
+    }
+
+}

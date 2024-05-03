@@ -1,26 +1,33 @@
-import React , {useState , useContext} from 'react'
+import React , {useState , useContext, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faSun , faMoon} from '@fortawesome/free-solid-svg-icons'
-import { NavLink , useNavigate } from 'react-router-dom'
+import { NavLink , useNavigate , useLocation} from 'react-router-dom'
 import IconWiDaySunny from '../utils/dayicon'
 import SearchBar from './SearchBar'
-import { CartContext } from '../store/LoginContext'
+import { useAuth } from '../Hooks/useAuth'
 
 
 export default function Navbar() {
-    const {isLogin , setIsLogin} = useContext(CartContext)
+    const {isLogined, setIsLogined, user, setUser} = useAuth() 
     const [currtheme , setCurrTheme] = useState(0) ; 
     const [colourChange , setColourChange] = useState(0) ; 
 
     const navigate = useNavigate() ; 
+    const location = useLocation() ; 
+
+    useEffect(()=>{
+      if(location.pathname === '/login'){
+        setColourChange(1) ; 
+      }
+    }, [isLogined])
 
     const handleColourChange = ()=>{
-      if(window.scrollY >= 80){
+       
+      if(window.scrollY >= 80  ){
         setColourChange(1) ; 
       }
       else{
         setColourChange(0) ; 
-        
       }
     } 
     window.addEventListener('scroll' , handleColourChange) ; 
@@ -55,16 +62,19 @@ export default function Navbar() {
     <div style={{
       backgroundColor : `${colourChange === 0 ? "rgba(81, 120, 237, 0)"  : "white"}`
     }} className='navbar ' >
-        <li  >Contact App</li>
-        {isLogin ===  0 ? <div>
+        <li className='cursor-pointer' onClick={()=>{
+          navigate('/') 
+          setColourChange(0)
+        }} >Contact App</li>
+        {user?.setIsLogined !== '' ? <div>
         <FontAwesomeIcon style={iconStyle} icon={faMoon} />
-        <li onClick={handleLoginButton} >Login</li> 
+        <li onClick={handleLoginButton} className='cursor-pointer' >Login</li> 
         </div>: <div>
                                             <li><SearchBar></SearchBar></li>
                                             <li>My Contacts</li>
                                             <li>Add Contacts</li>
                                             <FontAwesomeIcon style={iconStyle} icon={faMoon} />
-                                            <li>{name}</li>
+                                            <li className='cursor-pointer' >{name}</li>
                                         </div>
         }
         

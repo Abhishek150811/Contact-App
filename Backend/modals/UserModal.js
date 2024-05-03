@@ -6,8 +6,7 @@ const UserModal = new  mongoose.Schema({
         required : [true , 'You must have a phone number'],
         unique : true , 
         minLength : 10 ,
-        maxLength: 10,
-        match: /^\+91[6-9]\d{9}$/
+        match: /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/
     }, 
     fullName : {
         type : String , 
