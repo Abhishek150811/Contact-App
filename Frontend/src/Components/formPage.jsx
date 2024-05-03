@@ -98,13 +98,14 @@ export default function FormPage() {
           },
         }
       );
-
+      
+      console.log(data)
       if (data.success) {
         //console.log('Otp is Sent')
         toast.success("Updated!!");
         //set user in global state to data.data
         setUser(data.data);
-        if (data.data.fullName) {
+        if (data?.fullName) {
           navigate("/dashboard");
         }
         setIsLogined(3);

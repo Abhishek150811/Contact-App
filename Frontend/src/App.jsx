@@ -14,7 +14,7 @@ function App() {
   return (
     <AuthContextProvider >
   
-      <div className="main-box">
+      <div className="main-box h-[100vh] flex flex-col justify-end">
         <Navbar ></Navbar>
         <Routes>
           <Route path='/dashboard' element={<Dashboard></Dashboard>} />

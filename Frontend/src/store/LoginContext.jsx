@@ -8,6 +8,7 @@ export const AuthContextProvider = ({children})=>{
     const navigate = useNavigate() ; 
     const [user , setUser] = useState(null)
     const [isLogined , setIsLogined] = useState(0) ; 
+    const [contacts, setContacts] = useState([])
 
     useEffect( () => {
         async ()=>{
@@ -20,6 +21,11 @@ export const AuthContextProvider = ({children})=>{
           if(data.success){
             setIsLogined(3) ; 
             setUser(data.data) ; 
+
+            //fetch the contacts and setContacts
+
+
+            //navigate
             navigate('/dashboard') ; 
           }
           else{
@@ -30,7 +36,7 @@ export const AuthContextProvider = ({children})=>{
       }, []);
 
     return (
-        <AuthContext.Provider value={{user , setUser , isLogined , setIsLogined}}> 
+        <AuthContext.Provider value={{user , setUser , isLogined , setIsLogined, contacts, setContacts}}> 
             {children}
         </AuthContext.Provider>
     )

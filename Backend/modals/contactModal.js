@@ -12,9 +12,11 @@ const contactSchema = new mongoose.Schema({
     },
     email : {
         type : String , 
+        default : "" , 
     },
     dateOfBirth : {
         type : Date , 
+        
     },
     phoneNumber : {
         type : String , 
@@ -26,6 +28,7 @@ const contactSchema = new mongoose.Schema({
     }, 
     admin : {
         type : mongoose.Schema.ObjectId , 
+        ref : 'User' , 
         required : [true , 'A user must have a parent admin']
     }
 

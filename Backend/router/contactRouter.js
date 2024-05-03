@@ -1,14 +1,16 @@
 const express = require('express');
 const {getAllContacts , getContacts , createContact , deleteContact , updateContact} = require('../controllers/contactController')
+const {protect} = require('../utils/jwt.js')
 
 const router = express.Router() ; 
 
 router.route('/').get(getAllContacts)
-                 .post(createContact)
+                 .post(protect, createContact)
 
-router.route('/:id').patch(updateContact)
-                    .delete(deleteContact)
-                    .get(getContacts)
+router.get('/me', protect, getContacts)
+
+router.route('/:id').patch(protect, updateContact)
+                    .delete(protect, deleteContact)
 
                     
 module.exports = router ; 
