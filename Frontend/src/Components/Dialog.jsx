@@ -1,6 +1,11 @@
 import {forwardRef, useState , useRef} from 'react'
+import axios from 'axios'
+import { toast } from "sonner";
+import { useAuth } from '../Hooks/useAuth';
 
 const Dialog = forwardRef( function Dialog({handleClose } , ref) {
+    const {contacts , setContacts} = useAuth() ;  
+
     const [formData , setFormData] = useState({
         firstName : '' , 
         LastName : '' , 
@@ -9,8 +14,34 @@ const Dialog = forwardRef( function Dialog({handleClose } , ref) {
         phoneNumber : '' , 
     })
 
-    const handleSubmit = (e)=>{
+    const handleSubmit = async(e)=>{
         e.preventDefault() ; 
+        try{
+
+            const toekn = localStorage.getItem('token') ; 
+            const obj = await axios.post('http://127.0.0.1:3000/api/v1/contacts/' , {
+                headers : {
+                    Authorization : `Beaerer ${toekn}`
+                }
+            })
+
+            if(obj.status === 'success'){
+                toast.success('Contact Added Successfully') ; 
+                const {data} = await axios.get('http://1270.0.0.1:3000/api/v1/contacts/me') ; 
+                if(data.success === 'Success'){
+                    setContacts(data.data) ; 
+                }
+            }
+            else{
+                toast.error('Some error occured while adding contacts') ; 
+            }
+
+
+        }
+        catch(err){
+            console.log("Error occured while adding a new contact" , err.message) ; 
+        }
+
     }
 
   return (
