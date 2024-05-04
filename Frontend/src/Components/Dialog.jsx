@@ -19,11 +19,12 @@ const CustomButton = forwardRef( function CustomButton({type ,children, ...props
 const Dialog = forwardRef( function Dialog({setOpen} , ref) {
     const {contacts , setContacts} = useAuth() ;  
 
+    const todayDate = new Date() ; 
     const [formData , setFormData] = useState({
         firstName : '' , 
         LastName : '' , 
         email : '' , 
-        DateOfBirth : Date.now() , 
+        DateOfBirth : `2024-05-04` , 
         phoneNumber : '' , 
     })
 
