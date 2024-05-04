@@ -21,10 +21,8 @@ const contactSchema = new mongoose.Schema({
     phoneNumber : {
         type : String , 
         required : [true , 'Phone Number of a person is required'] ,
-        unique : true , 
         minLength : 10 ,
-        maxLength: 10,
-        match: /^\+91[6-9]\d{9}$/
+        
     }, 
     admin : {
         type : mongoose.Schema.ObjectId , 
@@ -34,6 +32,10 @@ const contactSchema = new mongoose.Schema({
 
 })
 
+
 const Contact = new mongoose.model('Contact' , contactSchema) ;
+
+
+
 
 module.exports = Contact

@@ -9,7 +9,8 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(undefined);
   const [isLogined, setIsLogined] = useState(0);
   const [contacts, setContacts] = useState([]);
-
+  const [selectedContact , setSelectedContact] = useState(undefined) ; 
+  
   useEffect(() => {
     const func = async () => {
       // console.log("it is running or not") 
@@ -46,11 +47,11 @@ export const AuthContextProvider = ({ children }) => {
       }
     };
     func();
-  }, []);
+  }, [contacts , isLogined , selectedContact]);
 
   return (
     <AuthContext.Provider
-      value={{ user, setUser, isLogined, setIsLogined, contacts, setContacts }}
+      value={{ user, setUser, isLogined, setIsLogined, contacts, setContacts,selectedContact , setSelectedContact  }}
     >
       {children}
     </AuthContext.Provider>

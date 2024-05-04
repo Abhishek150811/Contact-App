@@ -16,16 +16,16 @@ exports.getAllContacts = async (req , res , next)=>{
 }
 
 exports.getContacts = async( req , res , next)=>{
-    console.log("Reaching in gettng contacts") ; 
+//    console.log("It is reaching here") ; 
     const {_id} = req.user
-    console.log(_id) ; 
     try {
-        const users = await Contact.findOne({admin : _id}) ; 
+        const users = await Contact.find({admin : _id}) ; 
         res.status(200).json({
             status : 'Success' , 
             data : users 
         })
     }catch(err){
+        
         console.log("Error in gettling all contact list" , err.message)
     }
 
@@ -33,13 +33,12 @@ exports.getContacts = async( req , res , next)=>{
 
 exports.createContact = async (req , res , next)=>{
     const {_id} = req.user
-    console.log("Reaching here") ; 
     try{
         const user = await Contact.create({
             firstName : req.body.firstName , 
-            LastName : req.body.lastName , 
+            lastName : req.body.LastName , 
             email : req.body.email , 
-            dateOfBirth : req.body.dateOfBirth , 
+            dateOfBirth : req.body.DateOfBirth , 
             phoneNumber : req.body.phoneNumber , 
             admin :  _id
         })
@@ -49,7 +48,7 @@ exports.createContact = async (req , res , next)=>{
         })
     }
     catch(err){
-        console.log("Error occured while creating a new Contact") ; 
+        console.log("Error occured while creating a new Contact" , err.message) ; 
     }
 }
 

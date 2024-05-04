@@ -49,7 +49,7 @@ function PlusIcon(props) {
 }
 
 const Sidebar = () => {
-  const {contacts , setContacts} = useAuth() ; 
+  const {contacts , setContacts,} = useAuth() ; 
 
   return (
     <div className='h-full text-[16px] w-[25%] border-r'>
@@ -67,8 +67,8 @@ const Sidebar = () => {
           <div className="flex-1 py-2 overflow-auto">
             <nav className="grid items-start px-4 text-sm font-medium">
               {
-                ['John', 'Jane', 'Joe'].map((name, index) => (
-                  <ContactDisplay key={index} name={name} ></ContactDisplay>
+                contacts.map((name, index) => (
+                  <ContactDisplay key={index}  contact={name} ></ContactDisplay>
                 ))
               }
               

@@ -1,22 +1,33 @@
 import React from 'react'
+import { useAuth } from '../../Hooks/useAuth'
 import FallBack from './FallBack'
-const SingleContact = ({currSelected}) => {
+const SingleContact = () => {
+  const {selectedContact}  = useAuth()
+
+  if(!selectedContact) {
+    return (
+      <div className="flex flex-col justify-center w-[85%]">
+        <h1 className='text-center text-5xl' >
+            Select a Contact to view Details
+        </h1>
+      </div>
+
+    )
+  }
+  
   return (
     <>
      <div className="flex flex-col w-[85%]">
         <div className="flex h-[80px] items-center border-b bg-gray-100/90 px-12 ">
           <div className="flex-1">
-            <h1 className="text-lg font-semibold text-[18px]">Jane Smith</h1>
-            <p className="text-sm text-gray-500 mt-[1rem] text-[16px]">jane.smith@example.com</p>
+            <h1 className="text-lg font-semibold text-[18px]">{selectedContact.firstName} {selectedContact.lastName}</h1>
+            <p className="text-sm text-gray-500 mt-[1rem] text-[16px]">{selectedContact.email}</p>
           </div>
           <button className="ml-4" size="icon" variant="outline">
             <PhoneIcon className="w-8 h-8" />
-            <span className="sr-only">Call</span>
+            <span className="sr-only">Delete</span>
           </button>
-          <button className="ml-8" size="icon" variant="outline">
-            <MailIcon className="w-8 h-8" />
-            <span className="sr-only">Email</span>
-          </button>
+          
         </div>
         <div className="flex-1 p-12 w-full mt-[1rem]">
           <div className="flex flex-col justify-around w-full">
@@ -35,27 +46,27 @@ const SingleContact = ({currSelected}) => {
             </div>
             <div className="mt-[2rem] flex flex-col gap-8 w-full">
               <div>
-                <h2 className="text-[20px] font-bold">Jane Smith</h2>
+                <h2 className="text-[20px] font-bold">{selectedContact.firstName} {selectedContact.lastName}</h2>
                 <p className="text-gray-500 text-[18px] ">Software Engineer</p>
               </div>
               <div className="flex flex-col gap-8 space-y-2">
                 <div className="flex items-center gap-6">
                   <PhoneIcon className="w-10 h-10 text-gray-500 " />
-                  <span className='text-[16px]'>+1 (555) 555-5555</span>
+                  <span className='text-[16px]'>{selectedContact.phoneNumber.slice(0 , 3)} {selectedContact.phoneNumber.slice(3)}</span>
                 </div>
                 <div className="flex items-center gap-6">
                   <MailIcon className="w-10 h-10 text-gray-500 " />
-                  <span className='text-[16px]'>jane.smith@example.com</span>
+                  <span className='text-[16px]'>{selectedContact.email}</span>
                 </div>
               </div>
               <div className="flex flex-col gap-8 space-y-2">
                 <div className="flex items-center gap-6">
                   <LocateIcon className="w-10 h-10 text-gray-500 " />
-                  <span className='text-[16px]'>123 Main St, Anytown USA</span>
+                  <span className='text-[16px]'>LPU , Jalandhar Punjab</span>
                 </div>
                 <div className="flex items-center gap-6">
                   <CalendarDaysIcon className="w-10 h-10 text-gray-500 " />
-                  <span className='text-[16px]'>Joined April 2021</span>
+                  <span className='text-[16px]'>Date of Birth : {new Date(selectedContact.dateOfBirth).toLocaleDateString()}</span>
                 </div>
               </div>
             </div>

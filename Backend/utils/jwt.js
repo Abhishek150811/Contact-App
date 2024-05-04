@@ -47,7 +47,7 @@ exports.protect = async (req, res, next) => {
     }
     
     req.user = user
-    console.log("Reached the end of the protect route") ; 
+    // console.log(req.user) ; 
     next()
 
   }

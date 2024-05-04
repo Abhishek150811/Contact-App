@@ -5,8 +5,8 @@ import SideBar from '../Micro/SideBar'
 import SingleContact from '../Micro/SingleContact'
 
 export default function Dashboard() {
-  const [user , setUser , isLogined , setIslogined , currSelected , setCurrSelected] = useState() ; 
-  const {contacts , setContacts} = useAuth([]) ; 
+  
+  const {contacts , setContacts , user , setUser , isLogined , setIslogined , selectedContact , setSelectedContact } = useAuth() ; 
 
   useEffect(()=>{
     async function getContacts(){
@@ -16,9 +16,10 @@ export default function Dashboard() {
 
         let {data} = await axios.get('http://127.0.0.1:3000/api/v1/contacts/me' , {
           headers : {
-            Authentication : `Bearer ${token}`
+            Authorization : `Bearer ${token}`
           }
         })
+        console.log(data.data) ; 
         setContacts(data.data) ; 
       }
       catch(err){
@@ -30,8 +31,8 @@ export default function Dashboard() {
 
   return (
     <div className='w-full flex h-[90.5vh] '>
-        <SideBar currSelected={currSelected} setCurrSelected={setCurrSelected} />
-        <SingleContact currSelected={currSelected} setCurrSelected={setCurrSelected} />
+        <SideBar />
+        <SingleContact/>
     </div>
 
   )

@@ -32,18 +32,29 @@ const Dialog = forwardRef( function Dialog({setOpen} , ref) {
         try{
 
             const token = localStorage.getItem('token') ; 
-            const obj = await axios.post('http://127.0.0.1:3000/api/v1/contacts/' , {
+            const {data} = await axios.post('http://127.0.0.1:3000/api/v1/contacts/' , {
+                firstName: formData.firstName , 
+                LastName : formData.LastName ,
+                email: formData.email,
+                DateOfBirth:formData.DateOfBirth,
+                phoneNumber:"+91" + formData.phoneNumber,
+            } , {
                 headers : {
                     Authorization : `Bearer ${token}`
                 }
             })
-
-            if(obj.status === 'success'){
+             
+            if(data.status === 'Success'){
                 toast.success('Contact Added Successfully') ; 
-                const {data} = await axios.get('http://127.0.0.1:3000/api/v1/contacts/me') ; 
-                if(data.success === 'Success'){
-                    setContacts(data.data) ; 
+                const obj = await axios.get('http://127.0.0.1:3000/api/v1/contacts/me' , {
+                    headers : {
+                        Authorization : `Bearer ${token}`
+                    }
+                }) ; 
+                if(obj.data.status === 'Success'){
+                    setContacts(obj.data.data) ; 
                 }
+                setOpen(false) ; 
             }
             else{
                 toast.error('Some error occured while adding contacts') ; 
@@ -52,7 +63,7 @@ const Dialog = forwardRef( function Dialog({setOpen} , ref) {
 
         }
         catch(err){
-            console.log("Error occured while adding a new contact" , err.message) ; 
+            console.log("Error occured while adding a new contact" , err) ; 
         }
 
     }
