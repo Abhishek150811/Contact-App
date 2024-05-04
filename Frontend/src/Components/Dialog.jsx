@@ -31,16 +31,16 @@ const Dialog = forwardRef( function Dialog({setOpen} , ref) {
         e.preventDefault() ; 
         try{
 
-            const toekn = localStorage.getItem('token') ; 
+            const token = localStorage.getItem('token') ; 
             const obj = await axios.post('http://127.0.0.1:3000/api/v1/contacts/' , {
                 headers : {
-                    Authorization : `Beaerer ${toekn}`
+                    Authorization : `Bearer ${token}`
                 }
             })
 
             if(obj.status === 'success'){
                 toast.success('Contact Added Successfully') ; 
-                const {data} = await axios.get('http://1270.0.0.1:3000/api/v1/contacts/me') ; 
+                const {data} = await axios.get('http://127.0.0.1:3000/api/v1/contacts/me') ; 
                 if(data.success === 'Success'){
                     setContacts(data.data) ; 
                 }

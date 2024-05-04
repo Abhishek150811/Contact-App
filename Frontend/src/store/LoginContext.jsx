@@ -1,51 +1,58 @@
-import { useState , createContext, useEffect } from "react";
+import { useState, createContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+export const AuthContext = createContext();
 
-export const AuthContext = createContext() ; 
+export const AuthContextProvider = ({ children }) => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(undefined);
+  const [isLogined, setIsLogined] = useState(0);
+  const [contacts, setContacts] = useState([]);
 
-export const AuthContextProvider = ({children})=>{
-    const navigate = useNavigate() ; 
-    const [user , setUser] = useState(undefined)
-    const [isLogined , setIsLogined] = useState(0) ; 
-    const [contacts, setContacts] = useState([])
-
-    useEffect( () => {
-        async ()=>{
-          const token = localStorage.getItem('token');
-          const {data} = await axios.get('http:/127.0.0.1:3000/api/v1/users/me', {
-            headers : {
-              Authorization : `Bearer ${token}`
-            }
-          })
-          if(data.data.success){
-            setIsLogined(3) ; 
-            setUser(data.data) ; 
-
-            //fetch the contacts and setContacts
-            const {data:contacts} = await axios.get('http:/127.0.0.1:3000/api/v1/contacts/me', {
+  useEffect(() => {
+    const func = async () => {
+      // console.log("it is running or not") 
+      const token = localStorage.getItem("token");
+      const { data } = await axios.get(
+        "http://127.0.0.1:3000/api/v1/users/me",
+        {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+            Authorization: `Bearer ${token}`,
           },
-        })
-            if(contacts.data.success){
-              setContacts(contacts.data) ; 
-            }
-            //navigate
-            navigate('/dashboard') ; 
-          }
-          else{
-            setIsLogined(0) ; 
-          }
         }
-    
-      }, []);
+      );
+      // console.log( "is it reaching here" ,  data);
+      if (data.success) {
+        setIsLogined(3);
+        setUser(data.data);
 
-    return (
-        <AuthContext.Provider value={{user , setUser , isLogined , setIsLogined, contacts, setContacts}}> 
-            {children}
-        </AuthContext.Provider>
-    )
-}
+        //fetch the contacts and setContacts
+        const { data: contacts } = await axios.get(
+          "http:/127.0.0.1:3000/api/v1/contacts/me",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+            },
+          }
+        );
+        if (contacts.success) {
+          setContacts(contacts.data);
+        }
+        //navigate
+        navigate("/dashboard");
+      } else {
+        setIsLogined(0);
+      }
+    };
+    func();
+  }, []);
 
+  return (
+    <AuthContext.Provider
+      value={{ user, setUser, isLogined, setIsLogined, contacts, setContacts }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};

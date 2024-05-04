@@ -16,6 +16,7 @@ exports.getAllContacts = async (req , res , next)=>{
 }
 
 exports.getContacts = async( req , res , next)=>{
+    console.log("Reaching in gettng contacts") ; 
     const {_id} = req.user
     console.log(_id) ; 
     try {
@@ -32,6 +33,7 @@ exports.getContacts = async( req , res , next)=>{
 
 exports.createContact = async (req , res , next)=>{
     const {_id} = req.user
+    console.log("Reaching here") ; 
     try{
         const user = await Contact.create({
             firstName : req.body.firstName , 

@@ -19,7 +19,7 @@ exports.protect = async (req, res, next) => {
     message: 'Access Denied',
     success: false
   })
-
+  
   try {
     const isVerified = verifyToken(token)
     if (!isVerified) {
@@ -29,25 +29,25 @@ exports.protect = async (req, res, next) => {
         success: false
       })
     }
-
+    
     /**
      * {
      *    id: 'userid'
      * }
-     */
-
-    const user = await User.findById(isVerified.id)
-
-    if (!user) {
-      return res.status(401).json({
-        status: 'fail',
-        message: 'User not Available',
-        success: false
+    */
+   
+   const user = await User.findById(isVerified.id)
+   
+   if (!user) {
+     return res.status(401).json({
+       status: 'fail',
+       message: 'User not Available',
+       success: false
       })
     }
-
+    
     req.user = user
-
+    console.log("Reached the end of the protect route") ; 
     next()
 
   }
