@@ -8,7 +8,7 @@ import { useAuth } from "../Hooks/useAuth";
 import Dialog from "./Dialog";
 
 export default function Navbar() {
-  const { isLogined, setIsLogined, user, setUser } = useAuth();
+  const { isLogined, setIsLogined, user, setUser , setContacts , setSelectedContact } = useAuth();
   const [currtheme, setCurrTheme] = useState(0);
   const [colourChange, setColourChange] = useState(0);
   const [open, setOpen] = useState(false);
@@ -53,6 +53,14 @@ export default function Navbar() {
     navigate("/login");
   }
 
+  const handleLogout = async ()=>{
+    localStorage.removeItem('token') ; 
+    setIsLogined(0) ; 
+    setUser(undefined) ; 
+    setContacts([]) ; 
+    setSelectedContact(undefined) ; 
+    navigate('/') ; 
+  }
 
   const icon = currtheme === 0 ? faMoon : IconWiDaySunny;
 
@@ -87,7 +95,7 @@ export default function Navbar() {
           <li>  <SearchBar  ></SearchBar> </li>
           <button className="text-[16px] font-bold" onClick={()=>setOpen(true)} >Add Contacts</button>
           <FontAwesomeIcon style={iconStyle} icon={faMoon} />
-          <li className="cursor-pointer">Log out</li>
+          <li onClick={handleLogout} className="cursor-pointer">Log out</li>
         </div>
       )}
     </div>

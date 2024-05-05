@@ -47,7 +47,7 @@ export const AuthContextProvider = ({ children }) => {
       }
     };
     func();
-  }, [contacts , isLogined , selectedContact]);
+  }, [contacts  ]);
 
   return (
     <AuthContext.Provider

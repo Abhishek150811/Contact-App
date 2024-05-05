@@ -92,7 +92,7 @@ exports.verifyUser = async (req, res, next) => {
         }
 
         //OTP IS VERIFIED
-
+        console.log("OTP verified") ; 
         let obj = await User.findOne({ phoneNumber });
         if (!obj) {
             obj = await User.create({

@@ -59,7 +59,7 @@ const SingleContact = () => {
           </button> */}
           <button
             onClick={handleDeleteContact}
-            className=" text-2xl font-bold text-white bg-red-600 hover:bg-red-700  m-4"
+            className=" text-2xl font-bold text-white bg-red-700 hover:bg-red-600  m-4"
             size="icon"
             variant="outline"
           >
@@ -73,7 +73,7 @@ const SingleContact = () => {
                 alt="Jane Smith"
                 className="mx-auto h-[200px] w-[200px] rounded-full object-cover"
                 height={200}
-                src={"https://api.dicebear.com/8.x/initials/svg?seed=NAME"}
+                src={`https://api.dicebear.com/8.x/initials/svg?seed=${selectedContact.firstName} ${selectedContact.lastName}`}
                 style={{
                   aspectRatio: "200/200",
                   objectFit: "cover",

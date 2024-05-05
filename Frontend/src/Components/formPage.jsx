@@ -62,8 +62,8 @@ export default function FormPage() {
       );
 
       if (data.success === true) {
-        //console.log('Otp is Sent')
         console.log(data.data);
+        //console.log('Otp is Sent')
         toast.success("Logined!!");
         localStorage.setItem("token", data.token);
         //set user in global state to data.data
@@ -77,7 +77,7 @@ export default function FormPage() {
         setOtp('') ; 
       }
     } catch (err) {
-      toast.error("Something Went Wrong!!");
+      toast.error("Something Went Wrong!!" , err.message);
     } finally {
       setLoading(false);
     }
@@ -99,14 +99,15 @@ export default function FormPage() {
         }
       );
       
-      console.log(data.data)
       if (data.data.success) {
-        //console.log('Otp is Sent')
+        console.log('It is reaching here')
         toast.success("Updated!!");
         //set user in global state to data.data
         setUser(data.data);
-        console.log(data.data.fullName, data.data);
-        if (data.data.fullName) {
+        
+        console.log(data.data);
+        console.log(data.data.data.fullName) ; 
+        if (data.data.data.fullName) {
           navigate("/dashboard");
         }
         setIsLogined(3);

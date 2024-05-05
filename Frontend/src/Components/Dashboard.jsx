@@ -11,7 +11,7 @@ export default function Dashboard() {
   useEffect(()=>{
     async function getContacts(){
       try{
-
+        console.log("dashboard effect called");
         let token = localStorage.getItem('token') ; 
 
         let {data} = await axios.get('http://127.0.0.1:3000/api/v1/contacts/me' , {
