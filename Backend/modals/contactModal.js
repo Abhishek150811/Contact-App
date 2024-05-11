@@ -32,6 +32,7 @@ const contactSchema = new mongoose.Schema({
 
 })
 
+contactSchema.set('validateBeforeSave', false);
 
 const Contact = new mongoose.model('Contact' , contactSchema) ;
 

@@ -54,18 +54,25 @@ exports.createContact = async (req , res , next)=>{
 
 exports.updateContact = async(req , res , next)=>{
     try {
-        const data = req.body.details ; 
+        const data = req.body ; 
         const id = req.params
-        const user = await Contact.findOneAndUpdate({_id:id} , data ,  {
-            new : true 
-        } )
+
+        const user = await Contact.findById(new mongoose.Types.ObjectId(id))
+        user.firstName = data.firstName ; 
+        user.lastName = data.LastName ;
+        user.email = data.email ;
+        user.phoneNumber = data.phoneNumber ;
+        user.DateOfBirth = data.dateOfBirth ; 
+
+        await user.save() ;
+
         res.status(200).json({
             status : 'Success' , 
             data : user
         })
     }
     catch(err){
-        console.log("Error occured while updating the details of the contact") ; 
+        console.log("Error occured while updating the details of the contact" , err.message) ; 
     }
 }
 

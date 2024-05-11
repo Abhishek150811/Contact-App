@@ -19,7 +19,7 @@ export default function Dashboard() {
             Authorization : `Bearer ${token}`
           }
         })
-        console.log(data.data) ; 
+        // console.log(data.data) ; 
         setContacts(data.data) ; 
       }
       catch(err){

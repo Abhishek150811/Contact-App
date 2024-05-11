@@ -16,36 +16,43 @@ const CustomButton = forwardRef( function CustomButton({type ,children, ...props
 
 })
 
-const Dialog = forwardRef( function Dialog({setOpen} , ref) {
-    const {contacts , setContacts} = useAuth() ;  
+const Dialog = forwardRef( function Dialog({setOpen , curr} , ref) {
+    const {contacts , selectedContact , setContacts} = useAuth() ;  
 
     const todayDate = new Date() ; 
     const [formData , setFormData] = useState({
-        firstName : '' , 
-        LastName : '' , 
-        email : '' , 
-        DateOfBirth : `2024-05-04` , 
-        phoneNumber : '' , 
+        firstName : !curr ? '' : curr.firstName , 
+        LastName : !curr ? '' : curr.lastName, 
+        email : !curr ? '' : curr.email, 
+        DateOfBirth : `2024-05-04`  , 
+        phoneNumber : !curr ? '' : curr.phoneNumber.slice(3) , 
     })
+
 
     const handleSubmit = async(e)=>{
         e.preventDefault() ; 
         try{
-
             const token = localStorage.getItem('token') ; 
-            const {data} = await axios.post('http://127.0.0.1:3000/api/v1/contacts/' , {
-                firstName: formData.firstName , 
-                LastName : formData.LastName ,
-                email: formData.email,
-                DateOfBirth:formData.DateOfBirth,
-                phoneNumber:"+91" + formData.phoneNumber,
-            } , {
-                headers : {
-                    Authorization : `Bearer ${token}`
-                }
-            })
-             
-            if(data.status === 'Success'){
+            let data ;  
+            if(!curr){
+                data = await axios.post('http://127.0.0.1:3000/api/v1/contacts/' , {
+                    ...formData , phoneNumber : "+91" + formData.phoneNumber 
+                } , {
+                    headers : {
+                        Authorization : `Bearer ${token}`
+                    }
+                })
+            }
+             else{
+                data = await axios.patch(`http://127.0.0.1:3000/api/v1/contacts/${selectedContact._id}` , {
+                    ...formData , phoneNumber : "+91" + formData.phoneNumber , admin : curr.admin ,  __v : curr.__v
+                } , {
+                    headers : {
+                        Authorization : `Bearer ${token}`
+                    }
+                })
+             }
+            if(data.data.status === 'Success'){
                 toast.success('Contact Added Successfully') ; 
                 const obj = await axios.get('http://127.0.0.1:3000/api/v1/contacts/me' , {
                     headers : {
@@ -79,7 +86,10 @@ const Dialog = forwardRef( function Dialog({setOpen} , ref) {
             <CustomInput label="Email" value={formData.email} onChange={(e)=>setFormData((prev)=>({...prev , email : e.target.value}))} type="email" /> 
             <CustomInput label="Date Of Birth" value={formData.DateOfBirth} onChange={(e)=>setFormData((prev)=>({...prev , DateOfBirth : e.target.value}))} type="date" name="" id="" />
             <div className='flex gap-4 mt-5'>
-                <CustomButton type="submit">Add</CustomButton>
+                {!curr ? <CustomButton type="submit">Add</CustomButton> :
+                        <CustomButton type="submit">Edit</CustomButton>
+                }
+                
                 <CustomButton type="button" onClick={()=>setOpen(false)}>Cancel</CustomButton>
             </div>
         </form>

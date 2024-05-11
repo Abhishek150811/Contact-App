@@ -1,10 +1,11 @@
-import React from "react";
+import {useState} from "react";
 import { useAuth } from "../../Hooks/useAuth";
 import axios from 'axios'
 import FallBack from "./FallBack";
+import Dialog from "../../Components/Dialog";
 const SingleContact = () => {
   const { setContacts, selectedContact , setSelectedContact} = useAuth();
-
+  const [open , setOpen] = useState(false) ; 
   if (!selectedContact) {
     return (
       <div className="flex flex-col justify-center w-[85%]">
@@ -15,9 +16,6 @@ const SingleContact = () => {
     );
   }
 
-  const handleEditContact = async()=>{
-
-  }
 
   const handleDeleteContact = async () => {
     const id = selectedContact._id;
@@ -40,6 +38,7 @@ const SingleContact = () => {
   return (
     <>
       <div className="flex flex-col w-[85%]">
+        {open && <Dialog setOpen={setOpen} curr={selectedContact} ></Dialog>}
         <div className="flex h-[80px] items-center border-b bg-gray-100/90 px-12 ">
           <div className="flex-1">
             <h1 className="text-lg font-semibold text-[18px]">
@@ -49,14 +48,14 @@ const SingleContact = () => {
               {selectedContact.email}
             </p>
           </div>
-          {/* <button
-            onClick={handleEditContact}
+          <button
+            onClick={()=>setOpen(true)}
             className=" text-2xl font-bold text-white bg-blue-600 hover:bg-blue-700  m-4"
             size="icon"
             variant="outline"
           >
             Edit
-          </button> */}
+          </button>
           <button
             onClick={handleDeleteContact}
             className=" text-2xl font-bold text-white bg-red-700 hover:bg-red-600  m-4"

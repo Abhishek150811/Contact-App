@@ -1,8 +1,8 @@
-import React from 'react'
+import {useState} from 'react'
 import ContactDisplay from './ContactDisplay';
 import { useAuth } from '../../Hooks/useAuth'
 import { Link } from 'react-router-dom';
-
+import Dialog from '../../Components/Dialog';
 
 function ContactIcon(props) {
   return (
@@ -49,18 +49,21 @@ function PlusIcon(props) {
 }
 
 const Sidebar = () => {
-  const {contacts , setContacts,} = useAuth() ; 
+  const {contacts , setContacts} = useAuth() ; 
+  const [open , setOpen ] = useState(false) ; 
+
 
   return (
     <div className='h-full text-[16px] w-[25%] border-r'>
+        {open && <Dialog setOpen={setOpen} ></Dialog>}
         <div className="flex flex-col h-full max-h-screen gap-2">
           <div className="flex h-[60px] justify-between items-center border-b px-10">
             <Link className="flex items-center gap-4 font-semibold" href="#">
               <ContactIcon className="w-10 h-10" />
               <span className="text-[20px]">Contacts</span>
             </Link>
-            <button className="p-2 bg-white border rounded-md" size="icon" >
-              <PlusIcon className="w-8 h-8" />
+            <button onClick={()=>setOpen(true)} className="p-2 bg-white border rounded-md" size="icon" >
+              <PlusIcon  className="w-8 h-8" />
               
             </button>
           </div>
